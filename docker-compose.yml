@@ -1,0 +1,24 @@
+# docker-compose -f docker-compose.yml up
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - backend
+
+  jenkins:
+    build:
+      context: ./jenkins
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
