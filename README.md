@@ -16,7 +16,7 @@ docker-compose -f docker-compose.yml up
 
 `jenkins` 监听 `8080` 端口，访问 [http://localhost:8080](http://localhost:8080)。
 
-## 2.配置Jenkins
+## 2.Jenkins UI
 
 在第一步中启动 `jenkins` 后，访问 [http://localhost:8080](http://localhost:8080)，会提示输入管理员密码。
 
@@ -32,10 +32,23 @@ docker-compose -f docker-compose.yml up
 
 ![](./assets/images/jenkins/3.install-plugin-recommend.png)
 
-<!-- 在安装插件的过程中，可能会提示 `Unable to connect to the remote server`，这时需要手动安装插件。
-在 `Manage Jenkins` -> `Manage Plugins` 中，选择 `Available` 标签页，搜索 `git` 和 `docker`，安装这两个插件。
-在安装完成后，点击 `Manage Jenkins` -> `Configure System`，配置 `Git` 和 `Docker` 的路径。
-在 `Manage Jenkins` -> `Manage Plugins` 中，选择 `Installed` 标签页，搜索 `git` 和 `docker`，查看插件是否安装成功。
-在 `Manage Jenkins` -> `Manage Plugins` 中，选择 `Updates` 标签页，查看插件是否有更新。 -->
+安装完成后，会提示创建用户。当然也可以使用默认的 `admin` 用户（该用户的密码存储地，上文已经提过了）。
+
+![](./assets/images/jenkins/4.create-user.png)
+
+创建用户后，提示配置 `Jenkins` URL，默认是 `http://localhost:8080/`，可以直接点击 `Save and Finish`。
+
+![](./assets/images/jenkins/5.jenkins-url.png)
+
+最后，我们就可以登录 `Jenkins UI` 了。
+
+![](./assets/images/jenkins/6.complete.png)
+
+:::tip
+**如果在安装插件的过程中，有安装失败的插件，那么我们可以在 `Jenkins UI` 中，手动搜索安装对应插件**。
+:::
+
+## 3.Jenkins Plugins
+
 
 

@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    volumes:
+      - nginx_html:/usr/share/nginx/html
     networks:
       - backend
 
@@ -13,6 +15,7 @@ services:
     build:
       context: ./src/jenkins
       dockerfile: Dockerfile
+    user: root
     environment:
       - JENKINS_OPTS=--httpPort=8080
       - JENKINS_UC=https://mirrors.huaweicloud.com/jenkins/updates/update-center.json # 华为镜像 原始默认值为https://updates.jenkins.io/
@@ -24,6 +27,7 @@ services:
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home # 命名卷 保证Jenkins配置及数据持久化
+      - nginx_html:/usr/share/nginx/html
     networks:
       - backend
 
@@ -33,3 +37,4 @@ networks:
 
 volumes:
   jenkins_home:
+  nginx_html:
