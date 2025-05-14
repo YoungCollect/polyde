@@ -2,7 +2,7 @@
 services:
   nginx:
     build:
-      context: ./nginx
+      context: ./src/nginx
       dockerfile: Dockerfile
     ports:
       - "80:80"
@@ -11,14 +11,25 @@ services:
 
   jenkins:
     build:
-      context: ./jenkins
+      context: ./src/jenkins
       dockerfile: Dockerfile
+    environment:
+      - JENKINS_OPTS=--httpPort=8080
+      - JENKINS_UC=https://mirrors.huaweicloud.com/jenkins/updates/update-center.json # 华为镜像 原始默认值为https://updates.jenkins.io/
+      # - HTTP_PROXY=http://your-proxy-server:port
+      # - HTTPS_PROXY=http://your-proxy-server:port
+      # - NO_PROXY=localhost,127.0.0.1
     ports:
       - "8080:8080"
       - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home # 命名卷 保证Jenkins配置及数据持久化
     networks:
       - backend
 
 networks:
   backend:
     driver: bridge
+
+volumes:
+  jenkins_home:
