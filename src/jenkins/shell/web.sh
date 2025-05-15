@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
+# 从环境变量中读取项目名
 PROJECT_NAME=${JOB_NAME}
-TARGET_DIR="/usr/share/nginx/html/${PROJECT_NAME}"
 
 # 显示版本信息
 node -v 
@@ -21,24 +21,15 @@ rm -rf dist.tar
 tar -zcvf dist.tar ./dist  
 echo "压缩包创建成功"
 
-# ✅ 1. 创建目标目录并提前修正权限
+# 创建目标目录
+TARGET_DIR="/usr/share/nginx/html/${PROJECT_NAME}"
 if [ ! -d "$TARGET_DIR" ]; then
     mkdir -p "$TARGET_DIR"
     echo "📁 目录 $TARGET_DIR 已创建"
 fi
 
-# ✅ 2. 提前修正目标目录权限，避免后续操作失败
-chown -R 101:101 "$TARGET_DIR"
-chmod -R 755 "$TARGET_DIR"
-echo "✅ 目录权限已修正"
-
-# ✅ 3. 复制到目标目录并解压
+# 复制到目标目录并解压
 cp dist.tar "$TARGET_DIR/"
 cd "$TARGET_DIR"
 tar -zxvf ./dist.tar
 echo "🎉 项目已部署到 $TARGET_DIR"
-
-# ✅ 4. 最后再次确认权限，以防万一
-chown -R 101:101 "$TARGET_DIR"
-chmod -R 755 "$TARGET_DIR"
-echo "✅ 部署完成，Nginx 可以正常读取"

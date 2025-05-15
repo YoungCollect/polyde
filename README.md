@@ -50,5 +50,31 @@ docker-compose -f docker-compose.yml up
 
 ## 3.Jenkins Plugins
 
+安装 `Jenkins` 时，推荐安装的插件外，我们还需要安装以下插件：
+
+### 3-1.Publish Over SSH
+
+### 3-2.NPM and Yarn Wrapper and Steps
 
 
+## 4.Jenkins Environment
+
+### 4-1.NodeJs
+
+1. 在**全局工具配置**中，添加某版本的 `NodeJs`，：
+
+2. 在 `Configure` 的 `Environment` 中，勾选 `Provide Node & npm bin/ folder to PATH`，并选择 `NodeJS` 版本。
+
+## 5.Jenkins Build
+
+### 5-1.Shell
+
+### 5-2.NodeJs
+1. 在 `Build` 中，添加 `Execute NodeJS script`，并选择 `NodeJS` 版本。
+2. 在 `Execute NodeJS script` 中，输入 `NodeJs` 代码。
+
+### 5-3.Pipeline
+1. 在 `Build` 中，添加 `Pipeline`。
+2. 在 `Pipeline` 中，输入 `Pipeline` 代码。
+
+## 6.Jenkins Deploy

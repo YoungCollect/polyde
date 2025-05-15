@@ -6,8 +6,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+      - "9527:9527"
     volumes:
+      - ./src/nginx/conf:/etc/nginx/conf.d
       - nginx_html:/usr/share/nginx/html
+     # 添加日志目录、以及托管目录赋权
+    command: sh -c "mkdir /usr/share/nginx/logs && chmod -R 755 /usr/share/nginx/html && nginx -g 'daemon off;'"
     networks:
       - backend
 
@@ -27,14 +31,14 @@ services:
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home # 命名卷 保证Jenkins配置及数据持久化
-      - nginx_html:/usr/share/nginx/html
+      - nginx_html:/usr/share/nginx/html # 与nginx共享一个命名卷 推送静态文件
     networks:
       - backend
-
-networks:
-  backend:
-    driver: bridge
 
 volumes:
   jenkins_home:
   nginx_html:
+
+networks:
+  backend:
+    driver: bridge
