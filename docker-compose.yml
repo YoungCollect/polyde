@@ -8,10 +8,10 @@ services:
       - "80:80"
       - "9527:9527"
     volumes:
-      - ./src/nginx/conf:/etc/nginx/conf.d
+      - ./src/nginx/conf.d:/etc/nginx/conf.d
       - nginx_html:/usr/share/nginx/html
-     # 添加日志目录、以及托管目录赋权
-    command: sh -c "mkdir /usr/share/nginx/logs && chmod -R 755 /usr/share/nginx/html && nginx -g 'daemon off;'"
+     # 托管目录赋权
+    command: sh -c "chmod -R 755 /usr/share/nginx/html && nginx -g 'daemon off;'"
     networks:
       - backend
 
