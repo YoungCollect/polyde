@@ -74,9 +74,23 @@ docker-compose -f docker-compose.yml up
 
 ## 5.Jenkins Build & Deploy
 
+此节介绍 Jenkins 的 `Shell` 和 `Pipeline` 构建方式。
+
+**此节的 `Shell` 和 `Pipeline` 脚本可在[src/template](./src/template/)目录下寻找**。
+
 ### 5-1.Shell
+
+![](./assets/images/jenkins/shell.png)
+
+如果使用 `Shell` 方式（**自由风格**）的话，分为两步：
+
+1. 在创建过程中，自助勾选要应用的插件，并填写相关信息，譬如 `NVM Wrapper`、 `Git Parameter`。
+2. 在 `Build Steps` 中，填写 `Shell` 脚本。
 
 ### 5-2.Pipeline
 
-1. 在 `Build` 中，添加 `Pipeline`。
-2. 在 `Pipeline` 中，输入 `Pipeline` 代码。
+![](./assets/images/jenkins/pipeline.png)
+
+如果使用 `Pipeline` 方式（**流水线**）的话，只有一步：
+
+1. 填写  `Pipeline` 脚本。

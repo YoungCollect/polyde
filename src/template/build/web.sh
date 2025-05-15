@@ -2,10 +2,10 @@
 set -e
 
 # 显示版本信息
-echo "node -v: $(node -v)"
-echo "npm -v: $(npm -v)"
-echo "yarn -v: $(yarn -v)"
-echo "pnpm -v: $(pnpm -v)"
+echo "node version: $(node -v)"
+echo "npm version: $(npm -v)"
+echo "yarn version: $(yarn -v)"
+echo "pnpm version: $(pnpm -v)"
 
 # 检测包管理器并设置命令
 if [ -f "pnpm-lock.yaml" ]; then
