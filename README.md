@@ -52,10 +52,17 @@ docker-compose -f docker-compose.yml up
 
 安装 `Jenkins` 时，推荐安装的插件外，我们还需要安装以下插件：
 
-### 3-1.Publish Over SSH
+### 3-1.NVM Wrapper
 
-### 3-2.NPM and Yarn Wrapper and Steps
+[NVM Wrapper](https://plugins.jenkins.io/nvm-wrapper/)
 
+### 3-2.Git Parameter
+
+[Git Parameter](https://plugins.jenkins.io/git-parameter/)
+
+### ~~3-3.Publish Over SSH~~
+
+[Publish Over SSH](https://plugins.jenkins.io/publish-over-ssh/)是基于 `SSH` 协议的插件，可以在 Jenkins 中发布文件到远程服务器。
 
 ## 4.Jenkins Environment
 
@@ -65,16 +72,11 @@ docker-compose -f docker-compose.yml up
 
 2. 在 `Configure` 的 `Environment` 中，勾选 `Provide Node & npm bin/ folder to PATH`，并选择 `NodeJS` 版本。
 
-## 5.Jenkins Build
+## 5.Jenkins Build & Deploy
 
 ### 5-1.Shell
 
-### 5-2.NodeJs
-1. 在 `Build` 中，添加 `Execute NodeJS script`，并选择 `NodeJS` 版本。
-2. 在 `Execute NodeJS script` 中，输入 `NodeJs` 代码。
+### 5-2.Pipeline
 
-### 5-3.Pipeline
 1. 在 `Build` 中，添加 `Pipeline`。
 2. 在 `Pipeline` 中，输入 `Pipeline` 代码。
-
-## 6.Jenkins Deploy

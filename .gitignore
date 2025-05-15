@@ -16,3 +16,4 @@ lerna-debug.log*
 !.yarn/patches
 !.yarn/plugins
 dist
+data
