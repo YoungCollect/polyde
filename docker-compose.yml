@@ -1,4 +1,5 @@
-# docker-compose -f docker-compose.yml up
+# docker-compose -f docker-compose.yml up -d
+# docker-compose -f docker-compose.yml down
 services:
   nginx:
     build:
@@ -32,6 +33,9 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home # 命名卷 保证Jenkins配置及数据持久化
       - nginx_html:/usr/share/nginx/html # 与nginx共享一个命名卷 推送静态文件
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # - /usr/local/bin/docker-compose:/usr/local/bin/docker-compose
+    # command: sh -c "chmod +x /usr/local/bin/docker-compose && jenkins.sh"
     networks:
       - backend
 

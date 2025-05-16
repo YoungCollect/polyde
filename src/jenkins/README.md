@@ -61,7 +61,7 @@
 
 此节介绍 Jenkins 的 `Shell` 和 `Pipeline` 构建方式。
 
-**此节的 `Shell` 和 `Pipeline` 脚本可在[src/template](./src/template/)目录下寻找**。
+**此节的 `Shell` 和 `Pipeline` 脚本可在[src/template](../../src/template/)目录下寻找**。
 
 ### 4-1.Shell
 
