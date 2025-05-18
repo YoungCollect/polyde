@@ -41,9 +41,19 @@
 
 [NVM Wrapper](https://plugins.jenkins.io/nvm-wrapper/)
 
+该插件可用于在构建时，指定 `NodeJs` 版本。
+
 ### 2-2.Git Parameter
 
 [Git Parameter](https://plugins.jenkins.io/git-parameter/)
+
+该插件可用于在构建时，指定 `Git` 仓库的 `Branch` 或者  `Tag`。
+
+### 2-3.Docker Compose Build Step
+
+[Docker Compose Build Step](https://plugins.jenkins.io/docker-compose-build-step/)
+
+该插件可用于在构建时，指定 `Docker Compose` 命令运行服务（**`Docker compose` 需要额外手动安装**）。
 
 ### ~~2-3.Publish Over SSH~~
 
