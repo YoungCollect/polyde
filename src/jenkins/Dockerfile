@@ -10,9 +10,9 @@ RUN apt-get update && \
     apt-get install -y nodejs
 
 # 使用 Docker 官方安装脚本安装 docker 和 docker compose
-RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
-    sh get-docker.sh --mirror Aliyun && \
-    rm get-docker.sh
+# RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
+#     sh get-docker.sh --mirror Aliyun && \
+#     rm get-docker.sh
     
 # 安装yarn
 RUN npm install -g yarn

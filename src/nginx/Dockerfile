@@ -1,4 +1,4 @@
-FROM nginx:1.28.0-alpine
+FROM docker.1ms.run/nginx:1.28.0-alpine
 
 # 拷贝配置文件
 COPY conf.d/ /etc/nginx/conf.d/
