@@ -2,7 +2,6 @@ pipeline {
     agent any
     
     parameters {
-        // Node.js版本选择
         string(
             name: 'NODE_VERSION',
             defaultValue: '22.15.0',
@@ -18,25 +17,16 @@ pipeline {
             defaultValue: 'master',
             branchFilter: 'origin/(.*)'
         )
-        // 标签参数
-        // gitParameter(
-        //     name: 'TAG_NAME',
-        //     type: 'PT_TAG',
-        //     description: '选择标签',
-        //     defaultValue: 'RELEASE.1.0.0',
-        //     branchFilter: 'origin/(.*)'
-        // )
     }
     
     environment {
         // 定义环境变量
         NGINX_HTML_DIR = '/usr/share/nginx/html'
         // Git仓库配置
-        GIT_REPO_URL = ''
+        GIT_REPO_URL = 'http://gitlab.cbi.com/CBIBank/FE/admin/cbibank-admin-pino-server.git'
         // 凭证ID配置
-        GIT_CREDENTIALS_ID = ''
+        GIT_CREDENTIALS_ID = '1fd8399d-90d1-4543-ac1a-e5671e738da2'
         // 根据构建类型设置仓库引用
-        // REPO_REF = "${params.BUILD_TYPE == 'branch' ? params.BRANCH_NAME : params.TAG_NAME}"
         REPO_REF = "${params.BRANCH_NAME}"
     }
     
@@ -128,7 +118,7 @@ pipeline {
                     sh """
                         # 删除已有的压缩包，重新打包
                         rm -rf dist.tar
-                        tar --exclude='.git' -zcvf dist.tar .
+                        tar -zcvf dist.tar -T tar.txt
                         echo '压缩包创建成功'
                         
                         # 创建目标目录
@@ -144,15 +134,44 @@ pipeline {
                 }
             }
         }
-        stage('docker-compose') {
+        stage('Check and Run Docker Compose') {
             steps {
                 script {
-                    def dockerComposeBuilder = [$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.prod.yml', useCustomDockerComposeFile: true]
-                    step(dockerComposeBuilder)
+                    // 检查是否已有容器在运行
+                    def runningContainers = sh(script: "docker compose -f docker-compose.prod.yml ps -q", returnStdout: true).trim()
+                    
+                    if (runningContainers) {
+                        echo 'Containers are running. Checking for updates...'
+                        
+                        // 更新最新镜像
+                        sh 'docker compose pull'
+                        
+                        // 重新创建并启动有更新的服务
+                        sh 'docker compose up -f docker-compose.prod.yml -d --force-recreate --remove-orphans'
+                        
+                        echo 'Services updated and restarted.'
+                    } else {
+                        echo 'No running containers. Starting new ones...'
+                        sh 'docker compose up -f docker-compose.prod.yml -d'
+                        echo 'Services started.'
+                    }
                 }
             }
         }
-
+        // stage('docker-compose') {
+        //     steps {
+        //         step([
+        //             $class: 'DockerComposeBuilder',
+        //             dockerComposeFile: "${env.NGINX_HTML_DIR}/${env.JOB_NAME}/docker-compose.prod.yml",
+        //             useCustomDockerComposeFile: true,
+        //             option: [
+        //                 $class: 'StartService',
+        //                 scale: 1,
+        //                 service: 'app'
+        //             ]
+        //         ])
+        //     }
+        // }
     }
     
     post {
