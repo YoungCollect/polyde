@@ -23,9 +23,9 @@ pipeline {
         // 定义环境变量
         NGINX_HTML_DIR = '/usr/share/nginx/html'
         // Git仓库配置
-        GIT_REPO_URL = 'http://gitlab.cbi.com/CBIBank/FE/admin/cbibank-admin-pino-server.git'
+        GIT_REPO_URL = ''
         // 凭证ID配置
-        GIT_CREDENTIALS_ID = '1fd8399d-90d1-4543-ac1a-e5671e738da2'
+        GIT_CREDENTIALS_ID = ''
         // 根据构建类型设置仓库引用
         REPO_REF = "${params.BRANCH_NAME}"
     }
@@ -33,7 +33,7 @@ pipeline {
     stages {
         stage('环境准备') {
             steps {
-                nvm('version': "${NODE_VERSION}") {
+                nvm('version': "${NODE_VERSION}", 'nvmInstallURL': 'https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh') {
                     // 显示版本信息
                     sh '''
                         echo "node version: \$(node -v), npm version: \$(npm -v), yarn version: \$(yarn -v), pnpm version: \$(pnpm -v)"
@@ -67,48 +67,6 @@ pipeline {
                 }
             }
         }
-        
-        // stage('依赖安装') {
-        //     steps {
-        //         nvm('version': "${NODE_VERSION}") {
-        //             script {
-        //                 // 检测包管理器
-        //                 def pm = 'npm'
-        //                 if (fileExists('pnpm-lock.yaml')) {
-        //                     echo '使用 pnpm 安装依赖'
-        //                     pm = 'pnpm'
-        //                 } else if (fileExists('yarn.lock')) {
-        //                     echo '使用 yarn 安装依赖'
-        //                     pm = 'yarn'
-        //                 } else {
-        //                     echo '使用 npm 安装依赖'
-        //                 }
-                        
-        //                 // 安装依赖
-        //                 sh "${pm} install"
-        //             }
-        //         }
-        //     }
-        // }
-        
-        // stage('项目构建') {
-        //     steps {
-        //         nvm('version': "${NODE_VERSION}") {
-        //             script {
-        //                 // 检测包管理器
-        //                 def pm = 'npm'
-        //                 if (fileExists('pnpm-lock.yaml')) {
-        //                     pm = 'pnpm'
-        //                 } else if (fileExists('yarn.lock')) {
-        //                     pm = 'yarn'
-        //                 }
-                        
-        //                 // 构建项目
-        //                 sh "${pm} build"
-        //             }
-        //         }
-        //     }
-        // }
         
         stage('部署') {
             steps {
@@ -144,15 +102,15 @@ pipeline {
                         echo 'Containers are running. Checking for updates...'
                         
                         // 更新最新镜像
-                        sh 'docker compose pull'
+                        sh 'docker compose -f docker-compose.prod.yml pull'
                         
                         // 重新创建并启动有更新的服务
-                        sh 'docker compose up -f docker-compose.prod.yml -d --force-recreate --remove-orphans'
+                        sh 'docker compose -f docker-compose.prod.yml up -d --force-recreate --remove-orphans'
                         
                         echo 'Services updated and restarted.'
                     } else {
                         echo 'No running containers. Starting new ones...'
-                        sh 'docker compose up -f docker-compose.prod.yml -d'
+                        sh 'docker compose -f docker-compose.prod.yml up -d'
                         echo 'Services started.'
                     }
                 }
@@ -184,7 +142,6 @@ pipeline {
             // 可以添加失败通知
         }
         always {
-            // 清理工作空间
             cleanWs()
         }
     }
